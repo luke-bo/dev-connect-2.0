@@ -6,6 +6,11 @@ const app = express();
 // Connect Database
 connectDB();
 
+// Init Middleware
+// we used to need to require bodyparser as middleware, but express includes it by default now
+// the following line is telling our express app to use bodyparser
+app.use(express.json({ extended: false }));
+
 app.get('/', (req, res) => res.send('API Running'));
 
 // Define Routes
