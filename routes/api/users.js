@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const { check, validationResult } =  require('express-validator');
 
 // Bring in User model
@@ -63,13 +65,25 @@ async (req, res) => {
     user.password = await bcrypt.hash(password, salt);
     // Step #3: Save user to database
     await user.save();
+    // Step#4: Return json webtoken
+    const payload = {
+      user: {
+        id: user.id
+      }
+    }
 
-    // Return json webtoken
-    res.send('User route')
-
+    jwt.sign(
+      payload, 
+      config.get('jwtSecret'),
+      { expiresIn: 36000 },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
   } catch(err) {
     console.error(err.message);
-    response.status(500).send('Server error');
+    res.status(500).send('Server error');
   };
 });
 
