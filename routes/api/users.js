@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const gravatar = require('gravatar');
+const bcrypt = require('bcryptjs');
 const { check, validationResult } =  require('express-validator');
 
 // Bring in User model
@@ -26,30 +28,49 @@ async (req, res) => {
     res.status(400).json({ errors: errors.array() });
   }
 
+  // destructuring to pull out some values from req.body
   const { name, email, password } = req.body;
 
   try {
-  // See if user exists
-  let user = await User.findOne({ email: email });
+  
+    // See if user exists
+    let user = await User.findOne({ email: email });
 
-  if(user) {
-    res.status(400).json({ errors: [ {msg: 'User already exists'} ] }); 
-  }
+    if(user) {
+      res.status(400).json({ errors: [ {msg: 'User already exists'} ] }); 
+    }
 
-  // Get users gravatar
+    // Get users gravatar
+    const avatar = gravatar.url(email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm'
+    });
 
-  // Encrypt password
+    // Create instance of a User
+    user = new User({
+      name,
+      email,
+      avatar,
+      password
+    });
 
-  // Return json webtoken
+    // Encrypt password
 
-  res.send('User route')
+    // Step #1: Generate a salt
+    const salt = await bcrypt.genSalt(10);
+    // Step #2: Use bcrypt to encrypt the user's password
+    user.password = await bcrypt.hash(password, salt);
+    // Step #3: Save user to database
+    await user.save();
+
+    // Return json webtoken
+    res.send('User route')
 
   } catch(err) {
     console.error(err.message);
     response.status(500).send('Server error');
-  }
-
-
+  };
 });
 
 module.exports = router;
