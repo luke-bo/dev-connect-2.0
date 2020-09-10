@@ -65,7 +65,7 @@ async (req, res) => {
     user.password = await bcrypt.hash(password, salt);
     // Step #3: Save user to database
     await user.save();
-    // Step#4: Return json webtoken
+    // Step#4: Return payload & json webtoken
     const payload = {
       user: {
         id: user.id
