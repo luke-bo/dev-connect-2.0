@@ -342,4 +342,16 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route GET api/profile/github/:username
+// @description Get user repos from Github
+// @access Public
+router.get('/github/:username', (req, res) => {
+  try {
+    uri: 
+  } catch (err) {
+    
+  }
+});
+
 module.exports = router;
