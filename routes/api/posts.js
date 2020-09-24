@@ -10,7 +10,7 @@ const User = require('../../models/User');
 // @route GET api/posts
 // @description Test route
 // @access Public (no need for token as it's just a test route)
-router.get('/' , (req, res) => res.send('Posts route'));
+// router.get('/' , (req, res) => res.send('Posts route'));
 
 // @route POST api/posts
 // @description Create a post
@@ -50,5 +50,19 @@ router.post('/',
     }
   }
 );
+
+// @route GET api/posts
+// @description Get all posts
+// @access Private
+router.get('/', auth, async (req, res) => {
+  try {
+    // sort({ date: -1 }) will sort posts newest to oldest
+    const posts = await Post.find().sort({ date: -1 });
+    res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
