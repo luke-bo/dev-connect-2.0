@@ -1,29 +1,28 @@
-import React, { Fragment } from 'react';
-import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { NavBar } from './components/layouts/NavBar';
-import { Landing } from './components/layouts/Landing';
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import Alert from './components/layouts/Alert';
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { NavBar } from "./components/layouts/NavBar";
+import { Landing } from "./components/layouts/Landing";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import Alert from "./components/layouts/Alert";
 
 // Redux
-import { Provider } from 'react-redux';
-import store from './store';
+import { Provider } from "react-redux";
+import store from "./store";
 
-import './App.css';
-
+import "./App.css";
 
 const App = () => (
   <Provider store={store}>
     <Router>
       <Fragment>
         <NavBar />
-        <Route exact path='/' component={Landing} />
+        <Route exact path="/" component={Landing} />
         <section className="container">
-        <Alert />
+          <Alert />
           <Switch>
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/login' component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
           </Switch>
         </section>
       </Fragment>
@@ -32,8 +31,6 @@ const App = () => (
 );
 
 export default App;
-
-
 
 // <header className="App-header">
 // <img src={logo} className="App-logo" alt="logo" />
