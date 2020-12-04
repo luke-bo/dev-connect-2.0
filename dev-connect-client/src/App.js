@@ -14,7 +14,7 @@ import setAuthToken from "./utils/setAuthToken";
 
 import "./App.css";
 
-// This exists here as well as within our auth.js action so it runs every time the app's state changes
+// This exists here as well as within our auth.js action
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
