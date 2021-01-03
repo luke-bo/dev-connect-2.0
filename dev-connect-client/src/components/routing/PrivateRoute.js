@@ -10,10 +10,10 @@ const PrivateRoute = ({
 }) => (
   <Route
     {...rest}
-    render={(props) =>
+    render={props =>
       !isAuthenticated && !loading ? (
-        <Redirect to="/login" />
-      ) : (
+      <Redirect to="/login" />
+    ) : (
         <Component {...props} />
       )
     }
@@ -29,3 +29,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(PrivateRoute);
+
+// Wondering what "...rest" is doing? Take a look at this StackOv link: https://stackoverflow.com/questions/43484302/what-does-it-mean-rest-in-react-jsx
