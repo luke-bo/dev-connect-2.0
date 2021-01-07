@@ -36,13 +36,9 @@ router.get("/me", auth, async (req, res) => {
 // Here we pass our auth middleware and the express-validator check methods as params in our post request
 router.post(
   "/",
-  [
-    auth,
-    [
-      check("status", "Status is required").not().isEmpty(),
-      check("skills", "Skills is required").not().isEmpty(),
-    ],
-  ],
+  auth,
+  check("status", "Status is required").notEmpty(),
+  check("skills", "Skills is required").notEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
