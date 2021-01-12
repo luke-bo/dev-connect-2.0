@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
 
-
-
-
-const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentProfile, history }) => {
+const EditProfile = ({
+  profile: { profile, loading },
+  createProfile,
+  getCurrentProfile,
+  history,
+}) => {
   const [formData, setFormData] = useState({
     company: "",
     website: "",
@@ -29,18 +31,19 @@ const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentPro
     getCurrentProfile();
 
     setFormData({
-      company: loading || !profile.company ? '' : profile.company,
-      website: loading || !profile.website ? '' : profile.website,
-      status: loading || !profile.status ? '' : profile.status,
-      location: loading || !profile.location ? '' : profile.location,
-      skills: loading || !profile.skills ? '' : profile.skills.join(','),
-      githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
-      bio: loading || !profile.bio ? '' : profile.bio,
-      twitter: loading || !profile.social ? '' : profile.twitter,
-      facebook: loading || !profile.social ? '' : profile.facebook,
-      linkedin: loading || !profile.social ? '' : profile.linkedin,
-      youtube: loading || !profile.social ? '' : profile.youtube,
-      instagram: loading || !profile.social ? '' : profile.instagram,
+      company: loading || !profile.company ? "" : profile.company,
+      website: loading || !profile.website ? "" : profile.website,
+      status: loading || !profile.status ? "" : profile.status,
+      location: loading || !profile.location ? "" : profile.location,
+      skills: loading || !profile.skills ? "" : profile.skills.join(","),
+      githubusername:
+        loading || !profile.githubusername ? "" : profile.githubusername,
+      bio: loading || !profile.bio ? "" : profile.bio,
+      twitter: loading || !profile.social ? "" : profile.social.twitter,
+      facebook: loading || !profile.social ? "" : profile.social.facebook,
+      linkedin: loading || !profile.social ? "" : profile.social.linkedin,
+      youtube: loading || !profile.social ? "" : profile.social.youtube,
+      instagram: loading || !profile.social ? "" : profile.social.instagram,
     });
   }, [loading]);
 
@@ -64,8 +67,8 @@ const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentPro
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, history)
-  }
+    createProfile(formData, history, true);
+  };
 
   return (
     <Fragment>
@@ -75,7 +78,7 @@ const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentPro
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <form className='form' onSubmit={(e) => onSubmit(e)}>
         <div className='form-group'>
           <select name='status' value={status} onChange={(e) => onChange(e)}>
             <option value='0'>* Select Professional Status</option>
@@ -168,7 +171,7 @@ const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentPro
             type='button'
             className='btn btn-light'
           >
-            Add Social Network Links
+            Show/Hide Social Network Links
           </button>
           <span>Optional</span>
         </div>
@@ -229,22 +232,24 @@ const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentPro
         )}
 
         <input type='submit' className='btn btn-primary my-1' />
-        <a className='btn btn-light my-1' href='dashboard.html'>
+        <Link to='/dashboard' className='btn btn-light my-1'>
           Go Back
-        </a>
+        </Link>
       </form>
     </Fragment>
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state = ({
-  profile: state.profile
+const mapStateToProps = (state) => ({
+  profile: state.profile,
 });
 
-export default connect(null, { createProfile, getCurrentProfile })(withRouter(EditProfile));
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  withRouter(EditProfile)
+);
