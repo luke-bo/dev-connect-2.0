@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../actions/profile";
 import { Fragment } from "react";
 import Spinner from "../layouts/Spinner";
 import DashboardActions from "./DashboardActions";
+import { getCurrentProfile } from "../../actions/profile";
+import Experience from "./Experience";
+import Education from "./Education";
 
 
 const Dashboard = ({
@@ -15,11 +17,11 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
 
-  return loading && profile === null ? (
-    <Spinner />
-  ) : (
+  console.log(profile);
+
+  return (
     <Fragment>
       <h1 className='large text-primary'>Dashboard</h1>
       <p className='lead'>
@@ -28,6 +30,8 @@ const Dashboard = ({
       {profile != null ? (
         <Fragment>
           <DashboardActions />
+          <Experience experience={profile.experience} />
+          <Education education={profile.education} />
         </Fragment>
       ) : (
         <Fragment>
