@@ -30,7 +30,7 @@ export const getCurrentProfile = () => async (dispatch) => {
 };
 
 // Get All Profiles
-export const getAllProfile = () => async (dispatch) => {
+export const getProfiles = () => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
 
   try {
