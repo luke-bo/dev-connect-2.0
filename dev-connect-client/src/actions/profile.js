@@ -5,6 +5,7 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   GET_REPOS,
+  NO_REPOS,
   UPDATE_PROFILE,
   PROFILE_ERROR,
   CLEAR_PROFILE,
@@ -65,19 +66,18 @@ export const getProfileById = (userId) => async (dispatch) => {
   }
 };
 
-// Get Github Repos
+// Get Github repos
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
     const res = await axios.get(`/api/profile/github/${username}`);
 
     dispatch({
       type: GET_REPOS,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: NO_REPOS
     });
   }
 };
